@@ -6,6 +6,7 @@ import org.openqa.selenium.edge.EdgeDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import PageObject.PageObjects;
 import CommonClass.CommonMethods;
@@ -13,45 +14,52 @@ import CommonClass.CommonMethods;
 public class MyFirst {
 
 	WebDriver driver;
-	PageObjects pageobject;
+	PageObjects pageobject=new PageObjects();
 	CommonMethods commonmethods;
 	
 	String actualtitle;
 	String expecttitle;
 	
 	@BeforeMethod
-	public void setUp()
+	public void setUp() throws InterruptedException
 	{
-		System.setProperty("webdriver.edge.driver", "C:\\Users\\skar1\\Downloads\\edgedriver_win32\\msedgedriver.exe");
+		System.setProperty("webdriver.edge.driver", "C:\\Users\\skar1\\OneDrive - Hitachi Vantara\\Desktop\\edge\\msedgedriver.exe");
 		driver=new EdgeDriver();
-		driver.get("www.amazon.in");
-		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
+		commonmethods=new CommonMethods(driver);
+		driver.get("https://www.amazon.in");
+		driver.manage().window().maximize();
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));	
 	}
-	@Test(priority = 1)
+	@Test
 	 void titleValidation()
 	{
 		actualtitle=driver.getTitle();
-		expecttitle="Amazon.com. Spend less. Smile more.";
-		Assert.assertEquals(actualtitle, expecttitle);
+		expecttitle="Online Shopping site in India: Shop Online for Mobiles, Books, Watches, Shoes and More - Amazon.in";
+		Assert.assertTrue(actualtitle.contains(expecttitle));
 	}
 	
-	@Test(priority = 2)
+	@Test
 	 void validate_bestseller()
 	{
 		commonmethods.click(pageobject.all_btn);
+		System.out.println("all btn");
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 		commonmethods.click(pageobject.best_sellers_btn);
 		actualtitle=commonmethods.getText(pageobject.best_seller_text);
 		expecttitle="Amazon Bestsellers";
 		Assert.assertEquals(actualtitle, expecttitle);
 	}
 	
-	@Test(priority = 3)
+	
+	@Test
 	void validate_Item()
 	{
 		commonmethods.input(pageobject.search,"iphone");
+		commonmethods.click(pageobject.search_btn);
 		actualtitle= commonmethods.getText(pageobject.search_text);
+		System.out.println(actualtitle);
 		expecttitle="iphone";
-		Assert.assertEquals(actualtitle, expecttitle);
+		Assert.assertTrue(actualtitle.contains(expecttitle));
 	}
 	
 	@AfterMethod

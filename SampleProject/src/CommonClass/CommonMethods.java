@@ -11,6 +11,11 @@ public class CommonMethods {
 	WebDriver driver;
 	WebElement el;
 	
+	public CommonMethods(WebDriver driver)
+	{
+		this.driver=driver;
+	}
+	
 	public void click(String element)
 	{
 		el=driver.findElement(By.xpath(element));
