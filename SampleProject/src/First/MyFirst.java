@@ -42,7 +42,6 @@ public class MyFirst {
 	 void validate_bestseller()
 	{
 		commonmethods.click(pageobject.all_btn);
-		System.out.println("all btn");
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 		commonmethods.click(pageobject.best_sellers_btn);
 		actualtitle=commonmethods.getText(pageobject.best_seller_text);
@@ -57,7 +56,6 @@ public class MyFirst {
 		commonmethods.input(pageobject.search,"iphone");
 		commonmethods.click(pageobject.search_btn);
 		actualtitle= commonmethods.getText(pageobject.search_text);
-		System.out.println(actualtitle);
 		expecttitle="iphone";
 		Assert.assertTrue(actualtitle.contains(expecttitle));
 	}
